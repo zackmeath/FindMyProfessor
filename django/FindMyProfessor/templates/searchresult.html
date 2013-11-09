@@ -1,14 +1,23 @@
 <html>
+<!--
+Webpage that displays after a Professor is searched for
+displays a list of professors that match the search 
+Author: Zack Meath
+-->
+
 <head>
 	<title>
 		Find My Professor
 	</title>
+	<link rel="stylesheet" type="text/css" href="/static/FMPstyle.css">
 </head>
 <body>
 	<center><h1> <a href="/">Find My Professor</a> </h1></center>
-	<table border = 2>
-		<th>Matches:</th>
-	
+	<table>
+		<th align='left'>Matches:</th>
+	<!--
+	loop that displays all the matches
+	-->
 	{% for prof in professors %}
 		<tr><td><a href="/data/{{prof.name}}"+>{{prof.name}}</a></td></tr>
 	{%endfor%}

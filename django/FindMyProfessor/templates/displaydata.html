@@ -1,66 +1,99 @@
 <html>
+<!--
+Page that displays the data about the professor from the database
+Author: Zack Meath
+-->
 <head>
 	<title>
 		Find My Professor
 	</title>
+<link rel="stylesheet" type="text/css" href="/static/FMPstyle.css">
 </head>
 
 <body>
-	<center><h1> <a href="/">Find My Professor</a> </h1></center>
+	<center><h1> <a id="title" href="/">Find My Professor</a> </h1></center>
 	<!-- display the professors name -->
 	<h1>{{ name }}:</h1> 
+	<br>
+	<!-- Big table to space the information out horizontally -->
+	<table cellspacing = '30'>
+		<tr>
+		<th>
 
-	<!-- display class hours -->
-	<p>
-		<h3>Office Hours:
-		<table border=0 cellspacing = '5'>
-			<tr>
-				<th>DAY</th>
-				<th>START TIME</th>
-				<th>END TIME</th>
-			</tr>
-			{% for hours in officehours %}
-			<tr align="center">
-				<td>{{hours.day}}</td>
-				<td>{{hours.starttime}}</td>
-				<td>{{hours.endtime}}</td>
-			</tr>
-			{%endfor%}
-		</table>
-	</p>
-
-	<p>
-		<h3>Class times:
-		<table border=0 cellspacing = '10'>
-			<tr>
-				<th>TITLE</th>
-				<th>DAYS</th>
-				<th>TIME</th>
-				<th>LOCATION</th>
-				<th>CRN</th
-			</tr>
-			{% for class in teacherclasses %}
-			<tr align="center">
-				<td>{{class.title}}</td>
-				<td>{{class.days}}</td>
-				<td>{{class.time}}</td>
-				<td>{{class.location}}</td>
-				<td>{{class.CRN}}</td>
-			</tr>
-			{%endfor%}
-		</table>
+			<p>
+				<!-- Smaller table to display the times that the professor has a class -->
+				<h3>Class Times:</h3>
+				<table cellspacing = '15'>
+					<tr>
+						<th>Course Title</th>
+						<th>Days</th>
+						<th>Time</th>
+						<th>Location</th>
+						<th>CRN</th>
+					</tr>
+					{% for class in teacherclasses %}
+					<tr align="center">
+						<td align="left">{{class.title}}</td>
+						<td align="left">{{class.days}}</td>
+						<td>{{class.time}}</td>
+						<td>{{class.location}}</td>
+						<td>{{class.CRN}}</td>
+					</tr>
+					{%endfor%}
+				</table>
+					
+			</p>
 			
-	</p>
+		</th>
+		<th>
 
-	<p>
-		<h3>Comments:
-			{% for comm in comments %}
-			<h4>"{{comm.comment}}"<br>
-			<i>&nbsp;&nbsp;&nbsp;&nbsp;- Submitted by {{comm.user}} on {{comm.time}}</i>
-			{%endfor%}
-			
-	</p>
-	<a href="/officehours/{{name}}">Add Office Hours</a><br><br>
-	<a href="/comment/{{name}}">Add a Comment</a>
+			<p>
+				<!-- Smaller table to display the times that the professor has a office hours -->
+				{% for hours in officehours %}
+				{% if forloop.first %} <!-- The first time through, give the table its headers (if there are no office hours, no headers are displayed) -->
+				<h3>Office Hours:</h3>
+				<table cellspacing = '5'>
+					<tr>
+						<th>Day</th>
+						<th>Start Time</th>
+						<th>End Time</th>
+					</tr>
+					
+					<tr align="center">
+						<td align="left">{{hours.day}}</td>
+						<td>{{hours.starttime}}</td>
+						<td>{{hours.endtime}}</td>
+					</tr>
+				{% else %}
+					<tr align="center">
+						<td align="left">{{hours.day}}</td>
+						<td>{{hours.starttime}}</td>
+						<td>{{hours.endtime}}</td>
+					</tr>
+				{% endif %}
+				{%endfor%}
+				</table>
+				<a href="/officehours/{{name}}">Add Office Hours</a><br><br>
+			</p>
+		</th>
+		<th>
+			<p>	<!-- Space to display the comments section for the professor -->
+				{% for comm in comments %}
+				{% if forloop.first %} <!-- The first time through, print the header "Comments" (if there are 0 elements, it isn't displayed)-->
+				<h3>Comments:</h3>
+					<h4>"{{comm.comment}}"<br>
+					<i>&nbsp;&nbsp;&nbsp;&nbsp;- Submitted by {{comm.user}} on {{comm.time}}</i>
+				{% else %}
+					<h4>"{{comm.comment}}"<br>
+					<i>&nbsp;&nbsp;&nbsp;&nbsp;- Submitted by {{comm.user}} on {{comm.time}}</i>
+					{%endif%}
+					{%endfor%}
+					
+			</p>
+			<a href="/comment/{{name}}">Add a Comment</a>
+		</th>
+	</tr>
+	
+	
 </body>
 </html>

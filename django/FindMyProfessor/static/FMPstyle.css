@@ -1,0 +1,23 @@
+a {
+    color: #FF1300;
+    text-decoration:none
+}
+#title a {
+    color: #FF1300;
+    text-decoration:none
+}
+#title a:visited {
+    color: #FF1300;
+    text-decoration:none
+}
+#title a:hover {
+    color: #FF1300;
+    text-decoration:none
+}
+a:visited{
+	color:#FF1300;
+	text-decoration:none
+}
+a:hover{
+	text-decoration:underline;
+}

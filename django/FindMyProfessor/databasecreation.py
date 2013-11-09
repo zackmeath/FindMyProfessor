@@ -22,15 +22,15 @@ class database:
         while x<=2504:
             soup2 = BeautifulSoup(''.join(str(tablerows[x])))
             classdatalist.append(soup2.findAll('td'))
-            # print x
             x+=1
-        # for thing in classdatalist[0]:
-            # print thing
+
+
         #Heres the fun part, parsing each class out - NEED MOAR SOAP!!!
         #saving data to a list of lists, called classdata
 
         #get a dictionary of teachers as keys and class info as values
         teachers = {}
+        #last* vars are used to store the previous info, so that we can look back at it for when a lab uses that data for the class
         lasttitle = ''
         lastdays = ''
         lastlocation = ''
@@ -44,6 +44,7 @@ class database:
                 days = str(classinfo[8])
                 title = str(classinfo[7])
                 CRN = str(classinfo[1])
+                #above are long strings of html, parse it to get the actual data:
                 location = location[location.find(">",1)+1:location.find('<',1)]
                 time = time[time.find(">",1)+1:time.find('<',1)]
                 days = days[days.find(">",1)+1:days.find('<',1)]
@@ -55,6 +56,7 @@ class database:
                     CRN[CRN.find(">",1)+1:CRN.find('</A',1)]
                 else:
                     CRN = "Unknown"
+                #make days var pretty
                 days = days.replace('M','monday ')
                 days = days.replace('T','tuesday ')
                 days = days.replace('W','wednesday ')
@@ -65,12 +67,13 @@ class database:
                 days = days.replace('wednesday','Wednesday')
                 days = days.replace('thursday','Thursday')
                 days = days.replace('friday','Friday')
+                #some class titles have ampersands in them
                 title = title.replace('&amp;', '&')
-        
+                #fixing weird bug in html parsing that comes up once
                 if len(location)>19:
                     location = "Unknown"
                 
-
+                #in this case '&nbsp;' means that it is stealing from the last class (because is is the lab attached to it etc)
                 if title.strip() == "&nbsp;":
                     title = lasttitle
                 if days.strip() == "&nbsp;":
@@ -81,7 +84,7 @@ class database:
                     CRN = lastCRN 
                 if time.strip() == "&nbsp;":
                     time = lasttime 
-
+                #create the list of data 'coursedata'
                 coursedata = [
                     title,
                     days,
@@ -89,6 +92,7 @@ class database:
                     location,
                     CRN
                     ]
+                #change last* vars to be known for next time
                 lasttime = time
                 lastlocation = location
                 lastdays = days
@@ -96,17 +100,17 @@ class database:
                 lastCRN = CRN
             except:
                 continue
+            teacher = teacher.replace("  ", " ") #For some reason banner thinks that putting 2 spaces after the middle name is a good idea
+            #now we have to parse the professors html
+            #sometimes there is a weird artifact () and the if-else statement accounts for that
             if teacher.find('(',1) > teacher.find('<',1):
                 teacher = teacher[teacher.find(">",1)+1:teacher.find('(',1)-1].strip()
             else:
                 teacher = teacher[teacher.find(">",1)+1:teacher.find('<',1)-1].strip()
-            #teacher=teacher.replace(" ", "")
+            #finally we can add the professor to the dictionary!!!
+            #if-else makes sure the data is valid and simultaniously sees of the professor is already in the dictionary (to decide how to add them)
             if teacher not in teachers.keys() and len(days)!=0 and len(time)!=0 and len(location)!=0 and len(CRN)!=0 and len(title)!=0:
                 teachers[teacher] = [coursedata]
             elif len(days)!= 0 and len(teacher)!=0 and len(time)!=0 and len(location)!=0  and len(CRN)!=0 and len(title)!=0:
                 teachers[teacher].append(coursedata)
-        # for teacher in teachers:
-        #     print teacher + ':'
-        #     for classinfo in teachers[teacher]:
-        #         print classinfo
-        return teachers
+        return teachers #returns the dictionary where key = professor's name and value = a list of their classes (awhich are a list of data)
