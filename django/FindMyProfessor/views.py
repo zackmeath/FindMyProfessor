@@ -23,7 +23,7 @@ def addofficehourssubmit(request, name):
 	insertofficehours = OfficeHours(professor = prof, day = day, starttime = starttime, endtime = endtime)
 	insertofficehours.save()
 	
-	return displaydatadb(request, name)
+	return redirect('/data/' + name)
 
 def addofficehours(request,name):
 	return render_to_response('addofficehours.html',{"name":name})
@@ -34,8 +34,6 @@ def printDatabase(request):
 	teachString = str(d.getDatabase())
 	return HttpResponse(teachString)
 
-
-	
 def insertData(request):
 	d= database()
 	teachers = d.getDatabase()
@@ -45,7 +43,7 @@ def insertData(request):
 		for clas in teachers[prof]:
 			insertclass = Courses(professor = insertProf , title = clas[0], days = clas[1], time = clas[2], location = clas[3], cid = clas[4])
 			insertclass.save()
-	return HttpResponse("Completed...")
+	return redirect('/')
 
 def displaydatadb(request, name):
 	teacherclasses = []

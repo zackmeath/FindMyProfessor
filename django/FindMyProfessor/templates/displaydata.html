@@ -6,7 +6,7 @@
 </head>
 
 <body>
-	<center><h1> Find My Professor </h1></center>
+	<center><h1> <a href="/">Find My Professor</a> </h1></center>
 	<!-- display the professors name -->
 	<h2>{{ name }}:</h2> 
 
@@ -19,14 +19,14 @@
 				<th>START TIME</th>
 				<th>END TIME</th>
 			</tr>
-			{% for hours in oh %}
+			{% for hours in officehours %}
 			<tr align="center">
 				<td>{{hours.day}}</td>
 				<td>{{hours.starttime}}</td>
 				<td>{{hours.endtime}}</td>
 			</tr>
 			{%endfor%}
-
+		</table>
 	</p>
 
 	<p>
@@ -48,6 +48,9 @@
 				<td>{{class.CRN}}</td>
 			</tr>
 			{%endfor%}
+		</table>
 			
 	</p>
 	<a href="/officehours/{{name}}">Add Office Hours</a>
+</body>
+</html>

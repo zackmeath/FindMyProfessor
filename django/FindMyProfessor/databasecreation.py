@@ -49,7 +49,28 @@ class database:
                 elif CRN[CRN.find(">",1)+1:CRN.find('</A',1)] < 10:
                     CRN[CRN.find(">",1)+1:CRN.find('</A',1)]
                 else:
-                    CRN = ""
+                    CRN = "Unknown"
+                days = days.replace('M','monday ')
+                days = days.replace('T','tuesday ')
+                days = days.replace('W','wednesday ')
+                days = days.replace('R','thursday ')
+                days = days.replace('F','friday ')
+                days = days.replace('monday','Monday')
+                days = days.replace('tuesday','Tuesday')
+                days = days.replace('wednesday','Wednesday')
+                days = days.replace('thursday','Thursday')
+                days = days.replace('friday','Friday')
+                title = title.replace('&amp;', '&')
+                if title == "&nbsp;":
+                    title = "Unknown"
+                if days == "&nbsp;":
+                    days = "Unknown"
+                if location == "&nbsp;" or len(location)>19:
+                    location = "Unknown"
+                if CRN == "&nbsp;":
+                    CRN = "Unknown"
+                if time == "&nbsp;":
+                    time = "Unknown"
                 coursedata = [
                     title,
                     days,
@@ -57,17 +78,14 @@ class database:
                     location,
                     CRN
                     ]
-                if days == "&nbsp;":
-                    days = ""
-                if location == "&nbsp;" or len(location)>19:
-                    location = ""
+                
             except:
                 continue
             if teacher.find('(',1) > teacher.find('<',1):
                 teacher = teacher[teacher.find(">",1)+1:teacher.find('(',1)-2]
             else:
                 teacher = teacher[teacher.find(">",1)+1:teacher.find('<',1)-2]
-            teacher=teacher.replace(" ", "")
+            #teacher=teacher.replace(" ", "")
             if teacher not in teachers.keys() and len(days)!=0 and len(time)!=0 and len(location)!=0 and len(CRN)!=0 and len(title)!=0:
                 teachers[teacher] = [coursedata]
             elif len(days)!= 0 and len(teacher)!=0 and len(time)!=0 and len(location)!=0  and len(CRN)!=0 and len(title)!=0:
