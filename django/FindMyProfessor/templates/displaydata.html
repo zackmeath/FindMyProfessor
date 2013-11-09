@@ -8,12 +8,12 @@
 <body>
 	<center><h1> <a href="/">Find My Professor</a> </h1></center>
 	<!-- display the professors name -->
-	<h2>{{ name }}:</h2> 
+	<h1>{{ name }}:</h1> 
 
 	<!-- display class hours -->
 	<p>
-		<h2>Office Hours: </h2>
-		<table border=2>
+		<h3>Office Hours:
+		<table border=0 cellspacing = '5'>
 			<tr>
 				<th>DAY</th>
 				<th>START TIME</th>
@@ -30,8 +30,8 @@
 	</p>
 
 	<p>
-		<h2>Class times: </h2>
-		<table border=2>
+		<h3>Class times:
+		<table border=0 cellspacing = '10'>
 			<tr>
 				<th>TITLE</th>
 				<th>DAYS</th>
@@ -53,21 +53,11 @@
 	</p>
 
 	<p>
-		<h2>Comments: </h2>
-		<table border=1>
-			<tr>
-				<th>User</th>
-				<th>Comment</th>
-				<th>Time</th>
-			</tr>
+		<h3>Comments:
 			{% for comm in comments %}
-			<tr align="center">
-				<td>{{comm.user}}</td>
-				<td>{{comm.comment}}</td>
-				<td>{{comm.time}}</td>
-			</tr>
+			<h4>"{{comm.comment}}"<br>
+			<i>&nbsp;&nbsp;&nbsp;&nbsp;- Submitted by {{comm.user}} on {{comm.time}}</i>
 			{%endfor%}
-		</table>
 			
 	</p>
 	<a href="/officehours/{{name}}">Add Office Hours</a><br><br>
