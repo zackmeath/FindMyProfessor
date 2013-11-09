@@ -1,0 +1,53 @@
+<html>
+<head>
+	<title>
+		Find My Professor
+	</title>
+</head>
+
+<body>
+	<center><h1> Find My Professor </h1></center>
+	<!-- display the professors name -->
+	<h2>{{ name }}:</h2> 
+
+	<!-- display class hours -->
+	<p>
+		<h2>Office Hours: </h2>
+		<table border=2>
+			<tr>
+				<th>DAY</th>
+				<th>START TIME</th>
+				<th>END TIME</th>
+			</tr>
+			{% for hours in oh %}
+			<tr align="center">
+				<td>{{hours.day}}</td>
+				<td>{{hours.starttime}}</td>
+				<td>{{hours.endtime}}</td>
+			</tr>
+			{%endfor%}
+
+	</p>
+
+	<p>
+		<h2>Class times: </h2>
+		<table border=2>
+			<tr>
+				<th>TITLE</th>
+				<th>DAYS</th>
+				<th>TIME</th>
+				<th>LOCATION</th>
+				<th>CRN</th
+			</tr>
+			{% for class in teacherclasses %}
+			<tr align="center">
+				<td>{{class.title}}</td>
+				<td>{{class.days}}</td>
+				<td>{{class.time}}</td>
+				<td>{{class.location}}</td>
+				<td>{{class.CRN}}</td>
+			</tr>
+			{%endfor%}
+			
+	</p>
+	<a href="/officehours/{{name}}">Add Office Hours</a>

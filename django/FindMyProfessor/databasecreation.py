@@ -22,10 +22,10 @@ class database:
         while x<=2504:
             soup2 = BeautifulSoup(''.join(str(tablerows[x])))
             classdatalist.append(soup2.findAll('td'))
-            print x
+            # print x
             x+=1
-        for thing in classdatalist[0]:
-            print thing
+        # for thing in classdatalist[0]:
+            # print thing
         #Heres the fun part, parsing each class out - NEED MOAR SOAP!!!
         #saving data to a list of lists, called classdata
 
@@ -37,26 +37,43 @@ class database:
                 location = str(classinfo[18])
                 time = str(classinfo[9])
                 days = str(classinfo[8])
+                title = str(classinfo[7])
+                CRN = str(classinfo[1])
                 location = location[location.find(">",1)+1:location.find('<',1)]
                 time = time[time.find(">",1)+1:time.find('<',1)]
                 days = days[days.find(">",1)+1:days.find('<',1)]
+                title = title[title.find(">",1)+1:title.find('<',1)]
+                CRN = CRN[30:]
+                if len(CRN[CRN.find(">",1)+1:CRN.find('</a',1)]) < 10:
+                    CRN = CRN[CRN.find(">",1)+1:CRN.find('</a',1)]
+                elif CRN[CRN.find(">",1)+1:CRN.find('</A',1)] < 10:
+                    CRN[CRN.find(">",1)+1:CRN.find('</A',1)]
+                else:
+                    CRN = ""
                 coursedata = [
-                    location,
+                    title,
                     days,
-                    time
+                    time,
+                    location,
+                    CRN
                     ]
+                if days == "&nbsp;":
+                    days = ""
+                if location == "&nbsp;" or len(location)>19:
+                    location = ""
             except:
                 continue
             if teacher.find('(',1) > teacher.find('<',1):
                 teacher = teacher[teacher.find(">",1)+1:teacher.find('(',1)-2]
             else:
                 teacher = teacher[teacher.find(">",1)+1:teacher.find('<',1)-2]
-            if teacher not in teachers.keys() and len(days)!=0 and len(time)!=0 and len(location)!=0:
+            teacher=teacher.replace(" ", "")
+            if teacher not in teachers.keys() and len(days)!=0 and len(time)!=0 and len(location)!=0 and len(CRN)!=0 and len(title)!=0:
                 teachers[teacher] = [coursedata]
-            elif len(days)!= 0 and len(teacher)!=0 and len(time)!=0 and len(location)!=0 :
+            elif len(days)!= 0 and len(teacher)!=0 and len(time)!=0 and len(location)!=0  and len(CRN)!=0 and len(title)!=0:
                 teachers[teacher].append(coursedata)
-        for teacher in teachers:
-            print teacher + ':'
-            for classinfo in teachers[teacher]:
-                print classinfo
+        # for teacher in teachers:
+        #     print teacher + ':'
+        #     for classinfo in teachers[teacher]:
+        #         print classinfo
         return teachers

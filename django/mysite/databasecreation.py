@@ -22,10 +22,10 @@ class database:
         while x<=2504:
             soup2 = BeautifulSoup(''.join(str(tablerows[x])))
             classdatalist.append(soup2.findAll('td'))
-            print x
+            # print x
             x+=1
-        for thing in classdatalist[0]:
-            print thing
+        # for thing in classdatalist[0]:
+            # print thing
         #Heres the fun part, parsing each class out - NEED MOAR SOAP!!!
         #saving data to a list of lists, called classdata
 
@@ -41,9 +41,9 @@ class database:
                 time = time[time.find(">",1)+1:time.find('<',1)]
                 days = days[days.find(">",1)+1:days.find('<',1)]
                 coursedata = [
-                    location,
                     days,
-                    time
+                    time,
+                    location,
                     ]
             except:
                 continue
@@ -51,12 +51,13 @@ class database:
                 teacher = teacher[teacher.find(">",1)+1:teacher.find('(',1)-2]
             else:
                 teacher = teacher[teacher.find(">",1)+1:teacher.find('<',1)-2]
+            teacher=teacher.replace(" ", "")
             if teacher not in teachers.keys() and len(days)!=0 and len(time)!=0 and len(location)!=0:
                 teachers[teacher] = [coursedata]
             elif len(days)!= 0 and len(teacher)!=0 and len(time)!=0 and len(location)!=0 :
                 teachers[teacher].append(coursedata)
-        for teacher in teachers:
-            print teacher + ':'
-            for classinfo in teachers[teacher]:
-                print classinfo
+        # for teacher in teachers:
+        #     print teacher + ':'
+        #     for classinfo in teachers[teacher]:
+        #         print classinfo
         return teachers

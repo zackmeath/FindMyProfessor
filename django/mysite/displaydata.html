@@ -1,0 +1,26 @@
+<html>
+<head>
+	<title>
+		<h1>Find My Professor</h1>
+	</title>
+</head>
+
+<body>
+	<!-- display the professors name -->
+	<h2>{{ name }}:</h2> 
+
+	<!-- display class hours -->
+	<p>
+		<table>
+			<tr>
+				<th>DAYS</th>
+				<th>TIME</th>
+				<th>LOCATION</th>
+			</tr>
+			{% for class in teacherclasses %}
+			<tr>
+				<td>{{class.days}}</td>
+				<td>{{class.time}}</td>
+				<td>{{class.location}}</td>
+			</tr>
+	</p>
