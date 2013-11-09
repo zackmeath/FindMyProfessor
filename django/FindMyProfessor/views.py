@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from databasecreation import database
 from django.shortcuts import *
 from django.template import RequestContext
-from models import Professors, Courses, OfficeHours
+from models import Professors, Courses, OfficeHours, Comments
 import datetime
 
 def search(request):
@@ -25,10 +25,20 @@ def addofficehourssubmit(request, name):
 	
 	return redirect('/data/' + name)
 
+def submitcomment(request, name):
+	user = request.POST['user']
+	comment = request.POST['comment']
+	prof = Professors.objects.get(name = name)
+	comm = Comments(professor=prof,user=user,comment=comment)
+	comm.save()
+	return redirect('/data/' + name)
+
 def addofficehours(request,name):
 	return render_to_response('addofficehours.html',{"name":name})
 def index(request):
 	return render_to_response('index.html',{})
+def comment(request,name):
+	return render_to_response('comment.html', {"name":name})
 def printDatabase(request):
 	d = database()
 	teachString = str(d.getDatabase())
@@ -68,9 +78,13 @@ def displaydatadb(request, name):
 	oh = []
 	for officehours in OfficeHours.objects.filter(professor = professor):
 		oh.append(officehours)
+	comms = []
+	for comment in Comments.objects.filter(professor = professor):
+		comms.append(comment)
 	return render_to_response('displaydata.html', {
                 'name' : name,
                 'teacherclasses' : teacherclasses,
                 'officehours' : oh,
+                'comments':comms,
         })
 

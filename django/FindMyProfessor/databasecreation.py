@@ -31,6 +31,11 @@ class database:
 
         #get a dictionary of teachers as keys and class info as values
         teachers = {}
+        lasttitle = ''
+        lastdays = ''
+        lastlocation = ''
+        lastCRN = ''
+        lasttime = ''
         for classinfo in classdatalist:
             try:
                 teacher = str(classinfo[16])
@@ -61,16 +66,22 @@ class database:
                 days = days.replace('thursday','Thursday')
                 days = days.replace('friday','Friday')
                 title = title.replace('&amp;', '&')
-                if title == "&nbsp;":
-                    title = "Unknown"
-                if days == "&nbsp;":
-                    days = "Unknown"
-                if location == "&nbsp;" or len(location)>19:
+        
+                if len(location)>19:
                     location = "Unknown"
-                if CRN == "&nbsp;":
-                    CRN = "Unknown"
-                if time == "&nbsp;":
-                    time = "Unknown"
+                
+
+                if title.strip() == "&nbsp;":
+                    title = lasttitle
+                if days.strip() == "&nbsp;":
+                    days = lastdays 
+                if location.strip() == "&nbsp;":
+                    location = lastlocation
+                if CRN.strip() == "&nbsp;":
+                    CRN = lastCRN 
+                if time.strip() == "&nbsp;":
+                    time = lasttime 
+
                 coursedata = [
                     title,
                     days,
@@ -78,13 +89,17 @@ class database:
                     location,
                     CRN
                     ]
-                
+                lasttime = time
+                lastlocation = location
+                lastdays = days
+                lasttitle = title
+                lastCRN = CRN
             except:
                 continue
             if teacher.find('(',1) > teacher.find('<',1):
-                teacher = teacher[teacher.find(">",1)+1:teacher.find('(',1)-2]
+                teacher = teacher[teacher.find(">",1)+1:teacher.find('(',1)-1].strip()
             else:
-                teacher = teacher[teacher.find(">",1)+1:teacher.find('<',1)-2]
+                teacher = teacher[teacher.find(">",1)+1:teacher.find('<',1)-1].strip()
             #teacher=teacher.replace(" ", "")
             if teacher not in teachers.keys() and len(days)!=0 and len(time)!=0 and len(location)!=0 and len(CRN)!=0 and len(title)!=0:
                 teachers[teacher] = [coursedata]

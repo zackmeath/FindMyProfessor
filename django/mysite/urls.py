@@ -16,5 +16,8 @@ urlpatterns = patterns('',
     url(r'^search/$', search),
     url(r'^addofficehourssubmit/(.*)$', addofficehourssubmit),
     url(r'^officehours/(.*)$', addofficehours),
+    url(r'^comment/(.*)$', comment),
+    url(r'^submitcomment/(.*)$', submitcomment),
+
 
 )

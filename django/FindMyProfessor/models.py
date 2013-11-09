@@ -8,7 +8,7 @@ class Courses(models.Model):
     professor = models.ForeignKey(Professors)
     title = models.CharField(max_length=50)
     time = models.CharField(max_length=50)
-    days = models.CharField(max_length=30)
+    days = models.CharField(max_length=70)
     location = models.CharField(max_length=20)
 
 class OfficeHours(models.Model):
@@ -16,3 +16,9 @@ class OfficeHours(models.Model):
 	starttime = models.CharField(max_length=50)
 	endtime = models.CharField(max_length=50)
 	day = models.CharField(max_length=50)
+
+class Comments(models.Model):
+	professor = models.ForeignKey(Professors)
+	user = models.CharField(max_length=50)
+	comment = models.CharField(max_length=1000)
+	time = models.DateTimeField(auto_now = True)

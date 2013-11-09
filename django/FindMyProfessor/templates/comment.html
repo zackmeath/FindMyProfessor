@@ -1,0 +1,16 @@
+<html>
+<head>
+	<title>
+		Find My Professor
+	</title>
+</head>
+
+<body>
+	<center><h1> <a href="/">Find My Professor</a> </h1></center>
+	<h2>{{name}}:</h2>
+	<form method = "post" action = "/submitcomment/{{name}}" id='commentform'>
+	Your name: <input type="text" name="user"><br>
+
+	<input type="submit" value="Submit" />
+	</form>
+	<textarea name="comment" form="commentform">Enter text here...</textarea>

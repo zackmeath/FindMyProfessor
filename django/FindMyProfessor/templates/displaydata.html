@@ -51,6 +51,26 @@
 		</table>
 			
 	</p>
-	<a href="/officehours/{{name}}">Add Office Hours</a>
+
+	<p>
+		<h2>Comments: </h2>
+		<table border=1>
+			<tr>
+				<th>User</th>
+				<th>Comment</th>
+				<th>Time</th>
+			</tr>
+			{% for comm in comments %}
+			<tr align="center">
+				<td>{{comm.user}}</td>
+				<td>{{comm.comment}}</td>
+				<td>{{comm.time}}</td>
+			</tr>
+			{%endfor%}
+		</table>
+			
+	</p>
+	<a href="/officehours/{{name}}">Add Office Hours</a><br><br>
+	<a href="/comment/{{name}}">Add a Comment</a>
 </body>
 </html>
